@@ -5,7 +5,9 @@ import { computed, onMounted, ref } from "vue";
 const props = defineProps(["id"]);
 
 const event = ref("");
+
 const id = computed(() => props.id);
+
 onMounted(() => {
   EventService.getEvent(id.value)
     .then((response) => {
@@ -20,7 +22,13 @@ onMounted(() => {
 <template>
   <div v-if="event">
     <h1>{{ event.title }}</h1>
-    <p>{{ event.time }} on {{ event.date }} @ {{ event.location }}</p>
-    <p>{{ event.description }}</p>
+<div id="nav">
+      <router-link :to="{ name: 'EventDetails' }">Details</router-link>
+      |
+      <router-link :to="{ name: 'EventRegister' }">Register</router-link>
+      |
+      <router-link :to="{ name: 'EventEdit' }">Edit</router-link>
+    </div>
+    <router-view :event="event" />
   </div>
 </template>
